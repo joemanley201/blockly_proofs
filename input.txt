@@ -11,18 +11,18 @@ proofStep:step1:"This is step 1"
 nextStatement:true
 previousStatement:true
 blockName:mathematical_proof_step2
-proofStep:step1:"This is step 2"
+proofStep:step2:"This is step 2"
 nextStatement:true
 previousStatement:true
 blockName:mathematical_proof_step3
-proofStep:step1:"This is step 3"
+proofStep:step3:"This is step 3"
 nextStatement:true
 previousStatement:true
 blockName:mathematical_proof_step4
-proofStep:step1:"This is step 4"
+proofStep:step4:"This is step 4"
 nextStatement:true
 previousStatement:true
 blockName:mathematical_proof_step5
-proofStep:step1:"This is step 5"
+proofStep:step5:"This is step 5"
 nextStatement:true
 previousStatement:true
