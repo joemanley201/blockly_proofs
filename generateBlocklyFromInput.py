@@ -10,7 +10,7 @@ blocklyEnd = "}};"
 dummyInput = "this.appendDummyInput()"
 
 #Files
-outputBlockly = open("blockly/blocks/output.js", "w")
+outputBlockly = open("js/blocks/output.js", "w")
 inputFile = open("input.txt", "r")
 
 def generateBlocklyAndWrite(blockObj):
