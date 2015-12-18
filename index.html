@@ -7,6 +7,7 @@
   <script src="js/blocks_compressed.js"></script>
   <script src="js/msg/js/en.js"></script>
   <script src="js/blocks/output.js"></script>
+  <script src="js/xmlHelper.js"></script>
   <style>
     body {
       background-color: #fff;
@@ -35,11 +36,37 @@
     </category>
     <sep></sep>
   </xml>
-
+  <button onclick="checkBlocks()">
+    Check
+  </button>
+  <span id="answer">
+    <label>Answer is </label>
+    <input type="text" disabled="true" id="answerText"/>
+  </span>
   <script>
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'media/',
          toolbox: document.getElementById('toolbox')});
+
+    function checkBlocks() {
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      var xml_text = Blockly.Xml.domToText(xml);
+      var parsedXML = parseXml(xml_text);
+      var blocksJSON = xml2json(parsedXML);
+      blocksJSON = JSON.parse(blocksJSON.replace("undefined", ""));
+      document.getElementById("answerText").value = processJSON(blocksJSON);
+    }
+
+    function processJSON(JSONObj) {
+      block = JSONObj.xml.block;
+      answer = []
+      while(block && block.next) {
+        answer.push(block.field.name);
+        block = block.next.block;
+      }
+      return answer.join(",");
+    }
+
   </script>
 
 </body>
