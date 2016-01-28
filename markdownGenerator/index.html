@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Helper for Block Creator
+  </title>
+  <link href="css/mystyle.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="modal fade" tabindex="-1" role="dialog" id="confirmModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Confirm Delete Row</h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmDeleteRow">Yes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div class="container">
+    <hr>
+    <h1>Markdown Generator for Blockly</h1>
+    <hr>
+    <form class="form-horizontal" id="blockCreatorForm">
+      <div class="form-group">
+        <button onclick="generateImage()" type="button">
+          Generate
+        </button>
+        <button class="btn btn-info pull-left" id="addRow" type="button">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          Add Row
+        </button>
+        <div class="btn-toolbar">
+          <button class="btn btn-success pull-right" id="generateMarkdown" type="button">
+            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+            Generate Markdown</button>
+          <a id="downloadMarkdown" class="hidden"><button class="btn btn-primary pull-right" id="generateMarkdown" type="button">
+            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+            Download Markdown</button></a>
+        </div>
+      </div>
+      <div class="form-group">
+        <table class="table table-responsive" id="blocksTable">
+          <tr>
+            <th>
+              #
+            </th>
+            <th>
+              Block Type
+            </th>
+            <th>
+              Block Name
+            </th>
+            <th>
+              Block Text
+            </th>
+            <th>
+              Action
+            </th>
+          </tr>
+        </table>
+      </div>
+    </form>
+    <hr>
+    <div id="mathJaxExpression">
+      $$(\displaystyle{x+1\over y-1})\\
+      Hello\\
+      Hi\\
+      How\\
+      Are\\
+      You?\\
+
+      (\displaystyle{x+1\over y-1})\\
+      $$
+    </div>
+    <img />
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/core.js"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
+  <script src="js/jquery-mathjax-to-png.js"></script>
+  <!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">-->
+</script>
+  <script>
+    /*MathJax.Hub.Config({
+      SVG: {
+        scale: 100,
+        linebreaks: {
+          automatic: true
+        }
+      }
+    });*/
+
+MathJax.Hub.Config({
+  "HTML-CSS": {
+    preferredFont: "STIX"
+  }
+});
+  </script>
+</body>
+</html>
