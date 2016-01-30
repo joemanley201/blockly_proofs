@@ -41,7 +41,7 @@ def getBlockContent(blockJSON, isLabel):
 
 def getJSBlockStringForJSON(blockJSON):
     if blockJSON["blockType"] == PROOF_STATEMENT:
-        return getProofStartBlock(blockJSON)
+        return getProofStatementBlock(blockJSON)
     elif blockJSON["blockType"] == PROOF_END:
         return getProofEndBlock(blockJSON)
     elif blockJSON["blockType"] == PROOF_STEP:
@@ -49,10 +49,10 @@ def getJSBlockStringForJSON(blockJSON):
 
 
 #Blockly Block creators
-def getProofStartBlock(blockJSON):
+def getProofStatementBlock(blockJSON):
     return getBlocklyStart(blockJSON["blockName"]) \
            + getBlockContent(blockJSON, True)\
-           + getColor("65")\
+           + getColor("290")\
            + getEditable("false")\
            + getNavigation("false", "true")\
            + getBlocklyEnd()
@@ -60,7 +60,7 @@ def getProofStartBlock(blockJSON):
 def getProofEndBlock(blockJSON):
     return getBlocklyStart(blockJSON["blockName"]) \
            + getBlockContent(blockJSON, True)\
-           + getColor("65")\
+           + getColor("210")\
            + getEditable("false")\
            + getNavigation("true", "false")\
            + getBlocklyEnd()
