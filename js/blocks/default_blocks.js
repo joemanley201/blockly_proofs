@@ -37,27 +37,3 @@ Blockly.Blocks['proof_by_induction'] = {
     this.setTooltip('');
   }
 };
-
-Blockly.Blocks['proof_qed'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("QED");
-    this.setPreviousStatement(true, null);
-    this.setColour(330);
-    this.setTooltip('');
-  }
-};
-
-
-Blockly.Blocks['proof_to_be_proven'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Statement To Be Proven");
-    this.setNextStatement(true);
-    this.setColour(65);
-    this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
-  }
-};
