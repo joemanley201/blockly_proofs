@@ -35,6 +35,9 @@
         <button onclick="generateImage()" type="button">
           Generate
         </button>
+        <a id="download">
+          Download
+        </a>
         <button class="btn btn-info pull-left" id="addRow" type="button">
           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
           Add Row
@@ -72,39 +75,29 @@
     </form>
     <hr>
     <div id="mathJaxExpression">
-      $$(\displaystyle{x+1\over y-1})\\
-      Hello\\
-      Hi\\
-      How\\
-      Are\\
-      You?\\
-
-      (\displaystyle{x+1\over y-1})\\
-      $$
+      $$(\displaystyle{x+1\over y-1})\\Hello\\Hi\\How\\Are\\You?\\(\displaystyle{x+1\over y-1})\\$$
     </div>
-    <img />
+    
+    <hr>
+    <hr>
+    <canvas id="canvas" width="600px" height="273px"></canvas>
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/core.js"></script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
-  <script src="js/jquery-mathjax-to-png.js"></script>
-  <!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">-->
-</script>
+  <script src="js/rasterizeHTML.allinone.js"></script>
+  <script src="js/base64.js"></script>
+  <script src="js/svg-crowbar-2.js"></script>
+  <!--<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>-->
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script>
-    /*MathJax.Hub.Config({
+    MathJax.Hub.Config({
       SVG: {
         scale: 100,
         linebreaks: {
           automatic: true
         }
       }
-    });*/
-
-MathJax.Hub.Config({
-  "HTML-CSS": {
-    preferredFont: "STIX"
-  }
-});
+    });
   </script>
 </body>
 </html>

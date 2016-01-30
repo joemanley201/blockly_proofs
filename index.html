@@ -9,6 +9,7 @@
   <script src="js/blocks/output.js"></script>
   <script src="js/blocks/default_blocks.js"></script>
   <script src="js/xmlHelper.js"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
   <style>
     body {
       background-color: #fff;
@@ -38,6 +39,8 @@
       <block type="proof_by_induction"></block>
       <block type="proof_qed"></block>
       <block type="proof_to_be_proven"></block>
+      <block type="math_foo"></block>
+      
 
     </category>
     <sep></sep>
@@ -73,6 +76,16 @@
       return answer.join(",");
     }
 
+  </script>
+  <script>
+    MathJax.Hub.Config({
+      SVG: {
+        scale: 100,
+        linebreaks: {
+          automatic: true
+        }
+      }
+    });
   </script>
 
 </body>
