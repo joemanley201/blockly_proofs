@@ -18,24 +18,27 @@ def getBlocklyEnd():
 def getEditable(editable):
     return "this.setEditable(" + editable + ");"
 
-def getLabelField(blockContent):
-    return "this.appendDummyInput().appendField('" + blockContent + "');"
+def getLabelField(blockContent, isProofStatement):
+    appendHTML = ".appendField('Prove that')" if isProofStatement else ""
+    return "this.appendDummyInput()" + appendHTML + ".appendField('" + blockContent + "');"
 
 def getTextField(blockContent, blockName):
     return "this.appendDummyInput().appendField(new Blockly.FieldTextInput('" + blockContent + "'), '" + blockName + "');"
 
-def getImageField(imageLink, width, height):
-    return "this.appendDummyInput().appendField(new Blockly.FieldImage('" + imageLink + "', " + width[:-2] + ", " + height[:-2] + ", ''));"
+def getImageField(imageLink, width, height, isProofStatement):
+    appendHTML = ".appendField('Prove that')" if isProofStatement else ""
+    return "this.appendDummyInput()" + appendHTML + ".appendField(new Blockly.FieldImage('" + imageLink + "', " + width[:-2] + ", " + height[:-2] + ", ''));"
 
 
 #Blockly Block Processors
 def getBlockContent(blockJSON, isLabel):
+    isProofStatementBlock = (blockJSON["blockType"] == PROOF_STATEMENT)
     if ("image" in blockJSON):
         imageInfo = blockJSON["image"]
-        return getImageField(imageInfo["imagePath"], imageInfo["width"], imageInfo["height"])
+        return getImageField(imageInfo["imagePath"], imageInfo["width"], imageInfo["height"], isProofStatementBlock)
     else:
         if isLabel:
-            return getLabelField(blockJSON["blockText"])
+            return getLabelField(blockJSON["blockText"], isProofStatementBlock)
         else:
             return getTextField(blockJSON["blockText"], blockJSON["blockName"])
 
@@ -52,7 +55,7 @@ def getJSBlockStringForJSON(blockJSON):
 def getProofStatementBlock(blockJSON):
     return getBlocklyStart(blockJSON["blockName"]) \
            + getBlockContent(blockJSON, True)\
-           + getColor("290")\
+           + getColor("360")\
            + getEditable("false")\
            + getNavigation("false", "true")\
            + getBlocklyEnd()
