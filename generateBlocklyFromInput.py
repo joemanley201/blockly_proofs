@@ -1,4 +1,9 @@
 __author__ = 'joemanley'
+import json
+import os
+import logging
+from urllib import urlretrieve
+
 #Templates
 blocklyStartTemplate = "Blockly.Blocks['$$$'] = {init: function() {"
 appendFieldTemplate = "appendField('$$$')"
@@ -11,9 +16,10 @@ dummyInput = "this.appendDummyInput()"
 
 #Files
 outputBlockly = open("js/blocks/output.js", "w")
-inputFile = open("input.txt", "r")
+inputFile = open("inputFromMarkdownCreator.txt", "r")
 
-def generateBlocklyAndWrite(blockObj):
+
+'''def generateBlocklyAndWrite(blockObj):
     JSONString = ""
     JSONString += blocklyStartTemplate.replace("$$$", blockObj['name'])
     if blockObj['type'] == "proofStart":
@@ -70,4 +76,24 @@ for line in inputFile:
     parts = line.split(":")
     if parts[0] == "previousStatement":
         block['previousStatement'] = parts[1].strip()
-    generateBlocklyAndWrite(block)
+    generateBlocklyAndWrite(block)'''
+
+#Initialize Logger files and logging
+logFileName = "blocklyGenerator.log"
+open(logFileName, 'w').close()
+logging.basicConfig(filename = logFileName,level=logging.DEBUG)
+
+JSONdata = json.load(inputFile)
+blocks = JSONdata["blocks"]
+blocklyName = JSONdata["blocklyName"]
+
+os.chdir(os.getcwd())
+if os.path.exists(blocklyName):
+    logging.error("Blockly with name " + " '" + blocklyName + "' already exists. Please change new blockly name from JSON.")
+else:
+    logging.info("Blockly with name " + " '" + blocklyName + "' does not exist. Creating directory.")
+    os.mkdir(blocklyName)
+for block in blocks:
+    if ("image" in block):
+        urlretrieve(block["image"]["src"], blocklyName + "/" + block["blockName"] + ".svg")
+        logging.info(blocklyName + "/" + block["blockName"] + ".svg retrieved successfully")
