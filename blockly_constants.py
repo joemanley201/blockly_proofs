@@ -9,3 +9,6 @@ PROOF_STEP = "proofStep"
 
 #DOM IDs
 CATEGORY_ELEMENT = "categoryElement"
+
+#Paths
+GENERATED_BLOCKLYS_PATH = "generatedBlocklys/"
