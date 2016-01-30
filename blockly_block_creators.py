@@ -1,4 +1,4 @@
-from blockly_constants import PROOF_STATEMENT, PROOF_END, PROOF_STEP
+from blockly_constants import PROOF_STATEMENT, PROOF_END, PROOF_STEP, CATEGORY_ELEMENT
 
 
 #Blockly Template Getters
@@ -19,14 +19,13 @@ def getEditable(editable):
     return "this.setEditable(" + editable + ");"
 
 def getLabelField(blockContent):
-    return "this.appendDummyInput().appendField(" + blockContent + ");"
+    return "this.appendDummyInput().appendField('" + blockContent + "');"
 
 def getTextField(blockContent, blockName):
-    return "this.appendDummyInput().appendField(new Blockly.FieldTextInput(" + blockContent + "), " + blockName + ");"
+    return "this.appendDummyInput().appendField(new Blockly.FieldTextInput('" + blockContent + "'), '" + blockName + "');"
 
 def getImageField(imageLink, width, height):
     return "this.appendDummyInput().appendField(new Blockly.FieldImage('" + imageLink + "', " + width[:-2] + ", " + height[:-2] + ", ''));"
-
 
 
 #Blockly Block Processors
@@ -38,7 +37,7 @@ def getBlockContent(blockJSON, isLabel):
         if isLabel:
             return getLabelField(blockJSON["blockText"])
         else:
-            return getTextField(blockJSON["blockText"])
+            return getTextField(blockJSON["blockText"], blockJSON["blockName"])
 
 def getJSBlockStringForJSON(blockJSON):
     if blockJSON["blockType"] == PROOF_STATEMENT:
@@ -47,6 +46,7 @@ def getJSBlockStringForJSON(blockJSON):
         return getProofEndBlock(blockJSON)
     elif blockJSON["blockType"] == PROOF_STEP:
         return getProofStepBlock(blockJSON)
+
 
 #Blockly Block creators
 def getProofStartBlock(blockJSON):
@@ -72,3 +72,11 @@ def getProofStepBlock(blockJSON):
            + getEditable("false")\
            + getNavigation("true", "true")\
            + getBlocklyEnd()
+
+
+#Blockly HTML helpers
+def getBlockHtmlForBlockName(blockName):
+    return "<block type='" + blockName + "'></block>"
+
+def getJSForAppendingNewBlocksToToolbox(blockHtml):
+    return "document.getElementById('" + CATEGORY_ELEMENT + "').innerHTML += \"" + blockHtml + "\";"
