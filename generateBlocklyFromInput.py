@@ -4,96 +4,56 @@ import os
 import logging
 from urllib import urlretrieve
 
-#Templates
-blocklyStartTemplate = "Blockly.Blocks['$$$'] = {init: function() {"
-appendFieldTemplate = "appendField('$$$')"
-previousStatementTemplate = "this.setPreviousStatement($$$);"
-nextStatementTemplate = "this.setNextStatement($$$);"
+from blockly_constants import blocklyOutputFileName, logFileName, GENERATED_BLOCKLYS_PATH
+from blockly_block_creators import *
 
-setEditableFalse = "this.setEditable(false);"
-blocklyEnd = "}};"
-dummyInput = "this.appendDummyInput()"
 
 #Files
-outputBlockly = open("js/blocks/output.js", "w")
-inputFile = open("inputFromMarkdownCreator.txt", "r")
-
-
-'''def generateBlocklyAndWrite(blockObj):
-    JSONString = ""
-    JSONString += blocklyStartTemplate.replace("$$$", blockObj['name'])
-    if blockObj['type'] == "proofStart":
-        JSONString += dummyInput + "." + appendFieldTemplate.replace("$$$", "Prove") + "." + appendFieldTemplate.replace("$$$", blockObj['proofStatement'])
-        JSONString += "." + appendFieldTemplate.replace("$$$", "By")
-        JSONString += "." + appendFieldTemplate.replace("'$$$'", "new Blockly.FieldDropdown(" + block['proofTypes'] + ")," + "'" + blockObj['handle'] + "'")
-        JSONString += ";"
-        JSONString += "this.setColour(260);"
-    elif blockObj['type'] == "proofEnd":
-        JSONString += dummyInput + "." + appendFieldTemplate.replace("$$$", blockObj['text']) + ";"
-        JSONString += "this.setColour(260);"
-        JSONString += setEditableFalse
-    elif blockObj['type'] == "proofStep":
-        JSONString += dummyInput + "." + appendFieldTemplate.replace("'$$$'", "new Blockly.FieldTextInput(" + blockObj['text'] + ")," + "'" + blockObj['handle'] + "'")
-        JSONString += ";"
-        JSONString += "this.setColour(160);"
-        JSONString += setEditableFalse
-
-    if "nextStatement" in blockObj:
-        JSONString += nextStatementTemplate.replace("$$$", blockObj['nextStatement'])
-    if "previousStatement" in blockObj:
-        JSONString += previousStatementTemplate.replace("$$$", blockObj['previousStatement'])
-    JSONString += blocklyEnd
-    outputBlockly.write(JSONString)
-
-for line in inputFile:
-    block = {}
-    #blockName
-    parts = line.split(":")
-    if parts[0] == "blockName":
-        block['name'] = parts[1].strip()
-
-    line = inputFile.next()
-    parts = line.split(":")
-    if parts[0] == "proofStart":
-        block['type'] = parts[0].strip()
-        block['proofStatement'] = parts[1].strip()
-        block['proofTypes'] = parts[2].strip()
-        block['handle'] = "proofType"
-    elif parts[0] == "proofEnd":
-        block['type'] = parts[0].strip()
-        block['text'] = parts[1].strip()
-    elif parts[0].find("proofStep") != -1:
-        block['type'] = "proofStep"
-        block['handle'] = parts[1].strip()
-        block['text'] = parts[2].strip()
-
-    line = inputFile.next()
-    parts = line.split(":")
-    if parts[0] == "nextStatement":
-        block['nextStatement'] = parts[1].strip()
-
-    line = inputFile.next()
-    parts = line.split(":")
-    if parts[0] == "previousStatement":
-        block['previousStatement'] = parts[1].strip()
-    generateBlocklyAndWrite(block)'''
+blocklyOutputFile = open(blocklyOutputFileName, "w")
+inputMarkdownFile = open("inputFromMarkdownCreator.txt", "r")
 
 #Initialize Logger files and logging
-logFileName = "blocklyGenerator.log"
 open(logFileName, 'w').close()
-logging.basicConfig(filename = logFileName,level=logging.DEBUG)
+logging.basicConfig(filename = logFileName, level=logging.DEBUG)
 
-JSONdata = json.load(inputFile)
-blocks = JSONdata["blocks"]
-blocklyName = JSONdata["blocklyName"]
 
+#load inputFile as JSON
+inputJSON = json.load(inputMarkdownFile)
+blocks = inputJSON["blocks"]
+blocklyName = inputJSON["blocklyName"]
+
+
+#Generate SVGs if needed
+logging.info("[SVG Generation] Started")
 os.chdir(os.getcwd())
-if os.path.exists(blocklyName):
-    logging.error("Blockly with name " + " '" + blocklyName + "' already exists. Please change new blockly name from JSON.")
+if os.path.exists(GENERATED_BLOCKLYS_PATH + blocklyName):
+    logging.error("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' already exists. Cannot overwrite Please change new blockly name in JSON")
+    logging.error("[SVG Generation] Completed with Errors")
+    exit()
 else:
-    logging.info("Blockly with name " + " '" + blocklyName + "' does not exist. Creating directory.")
-    os.mkdir(blocklyName)
+    os.mkdir(GENERATED_BLOCKLYS_PATH + blocklyName)
+    logging.info("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' does not exist. Created blockly directory")
+    for block in blocks:
+        if ("image" in block):
+            imagePath = GENERATED_BLOCKLYS_PATH + blocklyName + "/" + block["blockName"] + ".svg"
+            block["image"]["imagePath"] = imagePath
+            urlretrieve(block["image"]["src"], imagePath)
+            logging.info("[SVG Generation] " + blocklyName + "/" + block["blockName"] + ".svg retrieved successfully")
+    logging.info("[SVG Generation] Completed successfully")
+
+
+#Generate JS for Blocks
+logging.info("[Block JavaScript Generation] Started")
+JSBlockString = ""
+blocklyBlockHTML = ""
 for block in blocks:
-    if ("image" in block):
-        urlretrieve(block["image"]["src"], blocklyName + "/" + block["blockName"] + ".svg")
-        logging.info(blocklyName + "/" + block["blockName"] + ".svg retrieved successfully")
+    JSBlockString += getJSBlockStringForJSON(block)
+    logging.info("[Block JavaScript Generation] Generated JavaScript Block String for block: " + block["blockName"])
+    blocklyBlockHTML += getBlockHtmlForBlockName(block["blockName"])
+
+JSBlockString += getJSForAppendingNewBlocksToToolbox(blocklyBlockHTML)
+logging.info("[Block JavaScript Generation] Appended DOM Manipulation Script to add new blocks to Blockly toolbox")
+blocklyOutputFile.write(JSBlockString)
+blocklyOutputFile.close()
+logging.info("[Block JavaScript Generation] JS file saved at " + blocklyOutputFileName)
+logging.info("[Block JavaScript Generation] Completed successfully")
