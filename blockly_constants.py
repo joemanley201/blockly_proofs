@@ -6,3 +6,6 @@ logFileName = "blocklyGenerator.log"
 PROOF_STATEMENT = "proofStatement"
 PROOF_END = "proofEnd"
 PROOF_STEP = "proofStep"
+
+#DOM IDs
+CATEGORY_ELEMENT = "categoryElement"
