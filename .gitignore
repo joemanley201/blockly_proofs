@@ -1,3 +1,4 @@
 .idea/
 blocklyGenerator.log
 generatedBlocklys/
+js/blocks/output.js
