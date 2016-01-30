@@ -1,103 +1,180 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>
+  <head>
+    <title>
     Helper for Block Creator
-  </title>
-  <link href="css/mystyle.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-</head>
-<body>
-  <div class="modal fade" tabindex="-1" role="dialog" id="confirmModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Confirm Delete Row</h4>
-        </div>
-        <div class="modal-body">
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmDeleteRow">Yes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  <div class="container">
-    <hr>
-    <h1>Markdown Generator for Blockly</h1>
-    <hr>
-    <form class="form-horizontal" id="blockCreatorForm">
-      <div class="form-group">
-        <button onclick="generateImage()" type="button">
-          Generate
-        </button>
-        <a id="download">
-          Download
-        </a>
-        <button class="btn btn-info pull-left" id="addRow" type="button">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-          Add Row
-        </button>
-        <div class="btn-toolbar">
-          <button class="btn btn-success pull-right" id="generateMarkdown" type="button">
-            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-            Generate Markdown</button>
-          <a id="downloadMarkdown" class="hidden"><button class="btn btn-primary pull-right" id="generateMarkdown" type="button">
-            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
-            Download Markdown</button></a>
-        </div>
-      </div>
-      <div class="form-group">
-        <table class="table table-responsive" id="blocksTable">
-          <tr>
-            <th>
-              #
-            </th>
-            <th>
-              Block Type
-            </th>
-            <th>
-              Block Name
-            </th>
-            <th>
-              Block Text
-            </th>
-            <th>
-              Action
-            </th>
-          </tr>
-        </table>
-      </div>
-    </form>
-    <hr>
-    <div id="mathJaxExpression">
-      $$(\displaystyle{x+1\over y-1})\\Hello\\Hi\\How\\Are\\You?\\(\displaystyle{x+1\over y-1})\\$$
-    </div>
-    
-    <hr>
-    <hr>
-    <canvas id="canvas" width="600px" height="273px"></canvas>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/core.js"></script>
-  <script src="js/rasterizeHTML.allinone.js"></script>
-  <script src="js/base64.js"></script>
-  <script src="js/svg-crowbar-2.js"></script>
-  <!--<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>-->
-  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  <script>
-    MathJax.Hub.Config({
-      SVG: {
-        scale: 100,
-        linebreaks: {
-          automatic: true
-        }
-      }
-    });
-  </script>
-</body>
-</html>
+    </title>
+    <link href="css/mystyle.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="modal fade" tabindex="-1" role="dialog" id="confirmModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Confirm Delete Row</h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmDeleteRow">Yes</button>
+          </div>
+          </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+          <div class="container">
+            <hr>
+            <h1>Markdown Generator for Blockly</h1>
+            <div class="row">
+              <div class="col-lg-3">
+                <input type="text" id="blocklyName" placeholder="Blockly Name" required="true" class="form-control input-lg"/>
+              </div>
+              <div class="col-lg-4" id="validationWarningMessage" style="display: none;">
+                <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Please enter a name for the blockly
+              </div>
+              </div>
+            </div>
+            <div class="row">
+              
+            </div>
+            <hr>
+            <form class="form-horizontal" id="blockCreatorForm">
+              <div class="form-group">
+                <button class="btn btn-info pull-left" id="addRow" type="button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Add Row
+                </button>
+                <div class="btn-toolbar">
+                  <button class="btn btn-success pull-right disabled" id="generateMarkdown" type="button">
+                  <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                  Generate Markdown
+                  </button>
+                  <button class="btn btn-default pull-right" id="showPreview" type="button">
+                  <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>
+                  Show Preview
+                  </button>
+                  <a id="downloadMarkdown" class="hidden"><button class="btn btn-primary pull-right" id="generateMarkdown" type="button">
+                    <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                    Download Markdown</button>
+                  </a>
+                </div>
+              </div>
+              <div class="form-group">
+                <table class="table table-responsive" id="blocksTable">
+                  <tr>
+                    <th class="col-lg-1">
+                      #
+                    </th>
+                    <th class="col-lg-2">
+                      Block Type
+                    </th>
+                    <th class="col-lg-2">
+                      Block Name
+                    </th>
+                    <th class="col-lg-2">
+                      Block Content
+                    </th>
+                    <th class="col-lg-1">
+                      Math / Multi Line
+                    </th>
+                    <th class="col-lg-3">
+                      Block Content Preview
+                    </th>
+                    <th class="col-lg-1">
+                      Action
+                    </th>
+                  </tr>
+                  <tr class="dataRows" id="row_1">
+                    <td class="col-lg-1">
+                      1
+                    </td>
+                    <td class="col-lg-1">
+                      <select class="form-control" id="blockType_1" name="proofStep">
+                        <option value="proofStatement" selected="selected">
+                          Proof Statement
+                        </option>
+                        <option value="proofEnd">Proof End</option>
+                        <option value="proofStep">Proof Step</option>
+                      </select>
+                    </td>
+                    <td class="col-lg-1"><input type="text" class="form-control" id="blockName_1" name="blockName" value="proof_statement_to_prove"/></td>
+                    <td class="col-lg-3"><textarea type="text" class="form-control" id="blockContent_1" name="blockContent">Prove\\ that \[\frac{x^2+1}{y^2}\]\ is\ true\\Prove\\ that \[\frac{x^2+1}{y^2}\]\ is\ true\ Prove\ that \[\frac{x^2+1}{y^2}\]\ is\ true</textarea></td>
+                    <td class="col-lg-1 text-center"><input type="checkbox" name="isMathOrMultiLine" id="blockMathOrMultiLine_1"></td>
+                    <td class="col-lg-5"><img id="blockContentPreview_1" name="blockContentPreview"></td>
+                    <td class="col-lg-1"><a href="#confirmModal" data-toggle="modal" id="deleteRow_1" data-target="#confirmModal"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></a></td>
+                  </tr>
+                  <tr class="dataRows" id="row_2">
+                    <td class="col-lg-1">2</td>
+                    <td class="col-lg-1">
+                      <select class="form-control" id="blockType_2" name="proofStep">
+                        <option value="proofStatement">Proof Statement</option>
+                        <option value="proofEnd" selected="selected">Proof End</option>
+                        <option value="proofStep">Proof Step</option>
+                      </select>
+                    </td>
+                    <td class="col-lg-1"><input type="text" class="form-control" id="blockName_2" name="blockName" value="proof_qed"/></td>
+                    <td class="col-lg-3"><textarea type="text" class="form-control" id="blockContent_2" name="blockContent">QED</textarea></td>
+                    <td class="col-lg-1 text-center"><input type="checkbox" name="isMathOrMultiLine" id="blockMathOrMultiLine_2"></td>
+                    <td class="col-lg-5"><img id="blockContentPreview_2" name="blockContentPreview"></td>
+                    <td class="col-lg-1"><a href="#confirmModal" data-toggle="modal" id="deleteRow_2" data-target="#confirmModal"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></a></td>
+                  </tr>
+                  <tr class="dataRows" id="row_3">
+                    <td class="col-lg-1">3</td>
+                    <td class="col-lg-1">
+                      <select class="form-control" id="blockType_3" name="proofStep">
+                        <option value="proofStatement">Proof Statement</option>
+                        <option value="proofEnd">Proof End</option>
+                        <option value="proofStep" selected="selected">Proof Step</option>
+                      </select>
+                    </td>
+                    <td class="col-lg-1"><input type="text" class="form-control" id="blockName_3" name="blockName" value="proof_step_1"/></td>
+                    <td class="col-lg-3"><textarea type="text" class="form-control" id="blockContent_3" name="blockContent">This\ is\ Step 1</textarea></td>
+                    <td class="col-lg-1 text-center"><input type="checkbox" name="isMathOrMultiLine" id="blockMathOrMultiLine_3"></td>
+                    <td class="col-lg-5"><img id="blockContentPreview_3" name="blockContentPreview"></td>
+                    <td class="col-lg-1"><a href="#confirmModal" data-toggle="modal" id="deleteRow_3" data-target="#confirmModal"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></a></td>
+                  </tr>
+                  <tr class="dataRows" id="row_4">
+                    <td class="col-lg-1">4</td>
+                    <td class="col-lg-1">
+                      <select class="form-control" id="blockType_4" name="proofStep">
+                        <option value="proofStatement">Proof Statement</option>
+                        <option value="proofEnd">Proof End</option>
+                        <option value="proofStep" selected="selected">Proof Step</option>
+                      </select>
+                    </td>
+                    <td class="col-lg-1"><input type="text" class="form-control" id="blockName_4" name="blockName" value="proof_step_2"/></td>
+                    <td class="col-lg-3"><textarea type="text" class="form-control" id="blockContent_4" name="blockContent">This\ is\ Step 2</textarea></td>
+                    <td class="col-lg-1 text-center"><input type="checkbox" name="isMathOrMultiLine" id="blockMathOrMultiLine_4"></td>
+                    <td class="col-lg-5"><img id="blockContentPreview_4" name="blockContentPreview"></td>
+                    <td class="col-lg-1"><a href="#confirmModal" data-toggle="modal" id="deleteRow_4" data-target="#confirmModal"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></a></td>
+                  </tr>
+                  <tr class="dataRows" id="row_5">
+                    <td class="col-lg-1">5</td>
+                    <td class="col-lg-1">
+                      <select class="form-control" id="blockType_5" name="proofStep">
+                        <option value="proofStatement">Proof Statement</option>
+                        <option value="proofEnd">Proof End</option>
+                        <option value="proofStep" selected="selected">Proof Step</option>
+                      </select>
+                    </td>
+                    <td class="col-lg-1"><input type="text" class="form-control" id="blockName_5" name="blockName" value="proof_step_3"/></td>
+                    <td class="col-lg-3"><textarea type="text" class="form-control" id="blockContent_5" name="blockContent">This\ is\ Step 3</textarea></td>
+                    <td class="col-lg-1 text-center"><input type="checkbox" name="isMathOrMultiLine" id="blockMathOrMultiLine_5"></td>
+                    <td class="col-lg-5"><img id="blockContentPreview_5" name="blockContentPreview"></td>
+                    <td class="col-lg-1"><a href="#confirmModal" data-toggle="modal" id="deleteRow_5" data-target="#confirmModal"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></a></td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+            <hr>
+            <script src="js/jquery.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/core.js"></script>
+          </body>
+        </html>
