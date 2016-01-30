@@ -3,13 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>Blockly Demo: Toolbox</title>
-  <script src="js/blockly_compressed.js"></script>
-  <script src="js/blocks_compressed.js"></script>
-  <script src="js/msg/js/en.js"></script>
-  <script src="js/blocks/output.js"></script>
-  <script src="js/blocks/default_blocks.js"></script>
-  <script src="js/xmlHelper.js"></script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
   <style>
     body {
       background-color: #fff;
@@ -27,21 +20,9 @@
   <div id="blocklyDiv" style="height: 500px; width: 800px;"></div>
 
   <xml id="toolbox" style="display: none">
-    <category name="Proof">
-      <block type="mathematical_proof_container_block"></block>
-      <block type="mathematical_proof_hence_proved"></block>
-      <block type="mathematical_proof_step1"></block>
-      <block type="mathematical_proof_step2"></block>
-      <block type="mathematical_proof_step3"></block>
-      <block type="mathematical_proof_step4"></block>
-      <block type="mathematical_proof_step5"></block>
+    <category name="Proof" id="categoryElement">
       <block type="proof_by_contradiction"></block>
       <block type="proof_by_induction"></block>
-      <block type="proof_qed"></block>
-      <block type="proof_to_be_proven"></block>
-      <block type="math_foo"></block>
-      
-
     </category>
     <sep></sep>
   </xml>
@@ -52,6 +33,13 @@
     <label>Answer is </label>
     <input type="text" disabled="true" id="answerText"/>
   </span>
+  
+  <script src="js/blockly_compressed.js"></script>
+  <script src="js/blocks_compressed.js"></script>
+  <script src="js/msg/js/en.js"></script>
+  <script src="js/blocks/output.js"></script>
+  <script src="js/blocks/default_blocks.js"></script>
+  <script src="js/xmlHelper.js"></script>
   <script>
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'media/',
@@ -76,16 +64,6 @@
       return answer.join(",");
     }
 
-  </script>
-  <script>
-    MathJax.Hub.Config({
-      SVG: {
-        scale: 100,
-        linebreaks: {
-          automatic: true
-        }
-      }
-    });
   </script>
 
 </body>
