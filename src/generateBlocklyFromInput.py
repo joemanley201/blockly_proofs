@@ -35,7 +35,7 @@ blocklyName = inputJSON["blocklyName"]
 #Generate SVGs if needed
 logging.info("[SVG Generation] Started")
 os.chdir(os.getcwd())
-if os.path.exists(GENERATED_BLOCKLYS_PATH + blocklyName):
+if os.path.exists("../" + GENERATED_BLOCKLYS_PATH + blocklyName):
     logging.error("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' already exists. Cannot overwrite Please change new blockly name in JSON")
     logging.error("[SVG Generation] Completed with Errors")
     ERROR_ENCOUNTERED = True
