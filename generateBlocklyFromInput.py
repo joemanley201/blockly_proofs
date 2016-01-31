@@ -7,6 +7,15 @@ from urllib import urlretrieve
 from blockly_constants import blocklyOutputFileName, logFileName, GENERATED_BLOCKLYS_PATH
 from blockly_block_creators import *
 
+ERROR_ENCOUNTERED = False
+
+def terminateProcess():
+    if ERROR_ENCOUNTERED:
+        print "-Error encountered during the process. Please check the logfile: " + logFileName
+    else:
+        print "Process completed successfully. Please check the logfile: " + logFileName + " for more details."
+    exit()
+
 
 #Files
 blocklyOutputFile = open(blocklyOutputFileName, "w")
@@ -29,7 +38,8 @@ os.chdir(os.getcwd())
 if os.path.exists(GENERATED_BLOCKLYS_PATH + blocklyName):
     logging.error("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' already exists. Cannot overwrite Please change new blockly name in JSON")
     logging.error("[SVG Generation] Completed with Errors")
-    exit()
+    ERROR_ENCOUNTERED = True
+    terminateProcess()
 else:
     os.mkdir(GENERATED_BLOCKLYS_PATH + blocklyName)
     logging.info("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' does not exist. Created blockly directory")
@@ -57,3 +67,4 @@ blocklyOutputFile.write(JSBlockString)
 blocklyOutputFile.close()
 logging.info("[Block JavaScript Generation] JS file saved at " + blocklyOutputFileName)
 logging.info("[Block JavaScript Generation] Completed successfully")
+terminateProcess()
