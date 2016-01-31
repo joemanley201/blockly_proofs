@@ -1,5 +1,5 @@
 # blockly_proofs
-Developing components using "Blockly For Education" to teach proofs
+Developing a tool to aid teaching Proofs using "Blockly For Education"
 ### File Structure
 - js/ contains the JavaScript files
 - media/ contains images and mp3 files

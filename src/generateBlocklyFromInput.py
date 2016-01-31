@@ -41,13 +41,13 @@ if os.path.exists(GENERATED_BLOCKLYS_PATH + blocklyName):
     ERROR_ENCOUNTERED = True
     terminateProcess()
 else:
-    os.mkdir(GENERATED_BLOCKLYS_PATH + blocklyName)
+    os.mkdir("../" + GENERATED_BLOCKLYS_PATH + blocklyName)
     logging.info("[SVG Generation] Blockly directory with name " + " '" + blocklyName + "' does not exist. Created blockly directory")
     for block in blocks:
         if ("image" in block):
             imagePath = GENERATED_BLOCKLYS_PATH + blocklyName + "/" + block["blockName"] + ".svg"
             block["image"]["imagePath"] = imagePath
-            urlretrieve(block["image"]["src"], imagePath)
+            urlretrieve(block["image"]["src"], "../" + imagePath)
             logging.info("[SVG Generation] " + blocklyName + "/" + block["blockName"] + ".svg retrieved successfully")
     logging.info("[SVG Generation] Completed successfully")
 
