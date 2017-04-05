@@ -42,7 +42,7 @@ The process of creating blocks involves 3 parts:
 ### Working with Blockly Toolbox
 - Open `<path_of_project>/index.html`
 
-![alt text] (screenshots/blocklyToolbox.png "Blockly Toolbox")
+![alt text](screenshots/blocklyToolbox.png "Blockly Toolbox")
 
 - Click on Proof pane to display the different blocks which have been generated and drag and drop to start building the blocks
 
