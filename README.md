@@ -11,7 +11,9 @@ The process of creating blocks involves 3 parts:
 
 ### Generating the Markdown
 - Open `markdownGenerator/index.html`
-![alt text] (screenshots/markdownGenerator.png "Markdown Generator")
+
+![alt text](screenshots/markdownGenerator.png "Markdown Generator")
+
 - **Blockly Name** - A name for this blockly component. Accepts only alphabets.
 - **Block Type** - There are 3 types of blocks:
 	- Proof Statement
@@ -24,7 +26,7 @@ The process of creating blocks involves 3 parts:
 - **Generate Markdown** - Once the preview of the SVG is generated and if its fine, click on Generate Markdown button.
 - **Download Markdown** - Once the markdown is generated, click on the download button which pops up.
 
-###Feeding the Markdown to the blockly generator
+### Feeding the Markdown to the blockly generator
 - Once the file is downloaded, copy it to the `src` folder of the project.
 - Navigate to `src` and run `python generateBlocklyFromInput.py` from the command line.
 - If the script runs successfully, you should see this message on the command line
@@ -39,7 +41,9 @@ The process of creating blocks involves 3 parts:
 
 ### Working with Blockly Toolbox
 - Open `<path_of_project>/index.html`
+
 ![alt text] (screenshots/blocklyToolbox.png "Blockly Toolbox")
+
 - Click on Proof pane to display the different blocks which have been generated and drag and drop to start building the blocks
 
 ### In Progress
